@@ -1,0 +1,83 @@
+Complete chatting program using pubnub.
+
+PubNub Gem version 3.4
+
+www.pubnub.com - PubNub Real-time Push Service in the Cloud.
+
+PubNub is a Real-time Network for Mobile App, Web Apps for pushing updates and enabling real-time notifications and even games!
+
+
+Init and instantiate a new PubNub instance
+
+$pubnub = Pubnub.new(
+    :publish_key   => 'demo',
+    :subscribe_key => 'demo'
+    #:uuid => 'dd'
+)
+$subscriptions = []
+
+$callback = lambda do |envelope|
+  Message.create(
+      :author => envelope.msg['author'],
+      :message => envelope.msg['message'],
+      :timetoken => envelope.timetoken
+  ) if envelope.msg['author'] && envelope.msg['message']
+end
+
+
+Publish
+
+When publishing, send a string, number, array, or hash. PubNub automatically serializes it to JSON for you, so you don't have to.
+
+  def publish    
+    render :json => $pubnub.publish(
+        :channel => params[:pubchannel],
+        :callback => lambda {|x|},
+        :message => {
+            :author => params[:author],
+            :message => params[:message]
+
+        }
+    )    
+  end
+
+Subscribe
+
+  def subscribe    
+    $pubnub.subscribe(
+        :channel => 'params[:pubchannel]',
+        :callback => $callback        
+    ) unless $pubnub.subscription_running?
+  end  
+
+History
+
+Retrieve previously published messages (requires activation via admin.pubnub.com) Optional start, end, and reverse option usage can be found in the tests.
+
+  def history
+    
+    $pubnub.history(
+      :channel  => params[:pubchannel],
+      :count    => 10, 
+      :callback => $callback
+    )
+  end
+
+Presence
+
+  def presence
+    
+    $pubnub.presence(
+        :channel  => params[:pubchannel],
+        :callback => $callback
+    )
+  end
+
+Here_now
+
+See who is "here now" in a channel at this very moment.
+
+pubnub.here_now(
+    :channel  => channel,
+    :callback => @my_callback
+)
