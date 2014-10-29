@@ -1,0 +1,59 @@
+!!!
+%html
+  %head
+    %title Pubnub Subscriber
+    = stylesheet_link_tag 'application'
+  %body
+    .container
+      %h1.pubnublogo
+        = link_to 'Pubnub', "root_path"                
+      %p Please enjoy example of PubChat.
+    .container
+      .row
+        %ul#carousel
+          %li.pubnubuser
+            = image_tag "pubnub_user1.jpg",  height: '200', width: '230'          
+          %li.pubnubuser
+            = image_tag "pubnub_user2.jpg",  height: '200', width: '230'
+          %li.pubnubuser
+            = image_tag "pubnub_user3.jpg",  height: '200', width: '230'
+          %li.pubnubuser
+            = image_tag "pubnub_user4.jpg",  height: '200', width: '230'                                              
+          %li.pubnubuser
+            = image_tag "pubnub_user7.jpg",  height: '200', width: '230'                               
+    .container
+      .row
+        .col-md-3
+        .col-md-6.usernamebox.displaybox
+          .chatin
+            %label Your Name
+            %input{:type => 'text', :id => "username", :placeholder => "Please enter user name!" }
+          %p.input-group-btn                  
+            %button{:type => 'button', :class => 'btn btn-info', :id => 'btnStartChat'} Start Chatting!
+        .col-md-3
+      .row
+        .col-md-3
+        .col-md-6.chattingroombox.displaybox
+          .chatin            
+            %input{:type => 'text', :id => "chattingroomname", :placeholder => "Input chatting room name!" }
+            %span.input-group-btn                  
+              %button{:type => 'button', :class => 'btn btn-info', :id => 'btnJoinChat'} Join New Chat! 
+          .rooms
+            %h3 Current chattting room list
+          %ul#chatroomlist                                    
+        .col-md-3               
+      .row.chatwindow.displaybox
+        .col-md-12
+          .panel.panel-default
+            .panel-heading
+              %h3 Pubnub Chat History
+            .panel-body
+              #messages
+            #footer.panel-footer
+              .input-group
+                %span.input-group-btn
+                  %input{:type => 'text', :class => 'form-control', :placeholder => 'your name', :id => 'author-field'}
+                %input{:type => 'text', :class => 'form-control', :placeholder => 'message', :id => 'message-field'}
+                %span.input-group-btn                  
+                  %button{:type => 'button', :class => 'btn btn-info', :id => 'send-button'} Send                                 
+    #timetoken.hidden 0
